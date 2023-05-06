@@ -425,3 +425,75 @@ class MeanAbsolutePrecentageError():
         y_pred = np.dot(X, W).T
         L = np.sum(np.true_divide((np.abs(Y - y_pred) * 100), Y)) / X.shape[0]
         return L
+    
+    class BinaryCrossEntropy():
+    """
+    Calculate Binary Cross Entropy loss.
+    """
+
+    @staticmethod
+    def loss(X, Y, W):
+        """
+        Calculate loss by Binary Cross Entropy method.
+
+        PARAMETERS
+        ==========
+
+        X: ndarray(dtype=float, ndim=1)
+          input vector
+        Y: ndarray(dtype=float)
+          output vector
+        W: ndarray(dtype=float)
+          Weights
+
+         RETURNS
+         =======
+
+         array of Binary Cross Entropy losses
+        """
+        M = X.shape[0]
+        Z = np.dot(X, W)
+        Y_hat = sigmoid(Z)
+        return -(1/M) * np.sum(Y * np.log(Y_hat) + (1 - Y) * np.log(1 - Y_hat))
+
+    @staticmethod
+    def derivative(X, Y, W):
+        """
+        Calculate derivative for Binary Cross Entropy method.
+
+        PARAMETERS
+        ==========
+
+        X: ndarray(dtype=float, ndim=1)
+          input vector
+        Y: ndarray(dtype=float)
+          output vector
+        W: ndarray(dtype=float)
+          Weights
+
+         RETURNS
+         =======
+
+         array of derivates
+        """
+        M = X.shape[0]
+        Z = np.dot(X, W)
+        Y_hat = sigmoid(Z)
+        return (1/M) * np.dot(X.T, (Y_hat - Y))
+
+def sigmoid(Z):
+    """
+    Sigmoid activation function.
+
+    PARAMETERS
+    ==========
+
+    Z: ndarray(dtype=float)
+      input vector
+
+     RETURNS
+     =======
+
+     array of sigmoid activations
+    """
+    return 1 / (1 + np.exp(-Z))
